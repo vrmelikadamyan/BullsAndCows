@@ -3,6 +3,7 @@ package com.vadamyan;
 public class BullsAndCows {
 
     public static void main(String[] args) {
-	// write your code here
+	Game game = new Game();
+	game.init();
     }
 }
