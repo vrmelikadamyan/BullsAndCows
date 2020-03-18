@@ -3,16 +3,21 @@ package com.vadamyan;
 import java.util.Scanner;
 
 public class Player {
-    protected String number;
-    protected int numberOfAttempts;
+    private int attempts;
 
     Player() {
-        number = new String();
-        numberOfAttempts = 0;
     }
 
-    public void tryToGuess() {
+    public String tryToGuess() {
         Scanner in = new Scanner(System.in);
-        number = in.nextLine();
+        return in.nextLine();
+    }
+
+    public void inCreaseAttempts() {
+        ++attempts;
+    }
+
+    public void showStat() {
+        System.out.println("Попыток: " + attempts);
     }
 }

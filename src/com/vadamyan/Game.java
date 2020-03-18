@@ -12,11 +12,10 @@ public class Game {
     private int cows;
 
     public Game() {
-        difficulty = 0;
         guessedNumber = new String();
         player = new Player();
-        isWin = false;
     }
+
     public void init() {
         System.out.print("Выберите сложность игры (от 3 до 5): ");
         difficulty = enterNumber();
@@ -36,30 +35,31 @@ public class Game {
 
     public void start() {
         System.out.println(guessedNumber);
+        String number;
         while (!isWin) {
             do {
                 System.out.print("Попробуйте угадать число: ");
-                player.tryToGuess();
-                if (!isNumberValid()) {
+                number = player.tryToGuess();
+                if (!isNumberValid(number)) {
                     System.out.println("Вы ввели неверное значение! Попробуйте ещё раз.");
                 }
-            } while (!isNumberValid());
+            } while (!isNumberValid(number));
 
-            if (player.number.equals("Сдаюсь") || player.number.equals("сдаюсь")) {
+            if (number.equals("Сдаюсь") || number.equals("сдаюсь")) {
                 isWin = false;
                 finish();
             }
 
-            player.numberOfAttempts++;
-            checkNumber();
+            player.inCreaseAttempts();
+            checkNumber(number);
         }
 
     }
 
-    public void checkNumber() {
+    public void checkNumber(String number) {
         for (int i = 0; i < guessedNumber.length(); ++i) {
-            for (int j = 0; j < player.number.length(); ++j) {
-                if (player.number.charAt(j) == guessedNumber.charAt(i)) {
+            for (int j = 0; j < number.length(); ++j) {
+                if (number.charAt(j) == guessedNumber.charAt(i)) {
                     if (i == j) {
                         ++bulls;
                     } else {
@@ -79,19 +79,19 @@ public class Game {
         }
     }
 
-    public boolean isNumberValid() {
+    public boolean isNumberValid(String number) {
         boolean isValid = true;
-            if (player.number.length() == difficulty) {
-                for (int i = 0; i < player.number.length(); ++i) {
+            if (number.length() == difficulty) {
+                for (int i = 0; i < number.length(); ++i) {
                     for (int j = 0; j < i; ++j) {
-                        if (player.number.charAt(i) == player.number.charAt(j)) {
+                        if (number.charAt(i) == number.charAt(j)) {
                             isValid = false;
                             break;
                         }
                     }
                 }
             } else {
-                return (player.number.equals("Сдаюсь") || player.number.equals("сдаюсь"));
+                return (number.equals("Сдаюсь") || number.equals("сдаюсь"));
             }
 
             return isValid;
@@ -125,6 +125,7 @@ public class Game {
             System.out.println("Поражение!");
         }
 
-        System.out.println("Загаданное число: " + guessedNumber + "\nПопыток: " + player.numberOfAttempts);
+        System.out.println("Загаданное число: " + guessedNumber);
+        player.showStat();
     }
 }
