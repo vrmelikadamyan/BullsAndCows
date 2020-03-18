@@ -92,28 +92,32 @@ public class Game {
             player.setWin(true);
             finish();
         } else {
-            System.out.println("Быки: " + bulls + "\nКоровы: " + cows);
-            bulls = 0;
-            cows= 0;
+            printAnswer();
         }
+    }
+
+    public void printAnswer() {
+        System.out.println("Быки: " + bulls + "\nКоровы: " + cows);
+        bulls = 0;
+        cows = 0;
     }
 
     public boolean isNumberValid(String number) {
         boolean isValid = true;
-            if (number.length() == difficulty) {
-                for (int i = 0; i < number.length(); ++i) {
-                    for (int j = 0; j < i; ++j) {
-                        if (number.charAt(i) == number.charAt(j)) {
-                            isValid = false;
-                            break;
-                        }
+        if (number.length() == difficulty) {
+            for (int i = 0; i < number.length(); ++i) {
+                for (int j = 0; j < i; ++j) {
+                    if (number.charAt(i) == number.charAt(j)) {
+                        isValid = false;
+                        break;
                     }
                 }
-            } else {
-                return (number.equals("Сдаюсь") || number.equals("сдаюсь"));
             }
+        } else {
+            return (number.equals("Сдаюсь") || number.equals("сдаюсь"));
+        }
 
-            return isValid;
+        return isValid;
     }
 
     public void finish() {
