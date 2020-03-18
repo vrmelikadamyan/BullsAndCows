@@ -7,7 +7,6 @@ public class Game {
     private int difficulty;
     private String guessedNumber;
     private Player player;
-    private boolean isWin;
     private int bulls;
     private int cows;
 
@@ -36,7 +35,7 @@ public class Game {
     public void start() {
         System.out.println(guessedNumber);
         String number;
-        while (!isWin) {
+        while (!player.isWin()) {
             do {
                 System.out.print("Попробуйте угадать число: ");
                 number = player.tryToGuess();
@@ -46,14 +45,34 @@ public class Game {
             } while (!isNumberValid(number));
 
             if (number.equals("Сдаюсь") || number.equals("сдаюсь")) {
-                isWin = false;
                 finish();
+                break;
             }
 
             player.inCreaseAttempts();
             checkNumber(number);
         }
+    }
 
+    public void makeANumber() {
+        Random random = new Random();
+        int[] number = new int[difficulty];
+        int num;
+        for (int i = 0; i < difficulty; ) {
+            num = random.nextInt(10);
+            boolean b = true;
+            for (int j = 0; j < i; ++j) {
+                if (number[j] == num) {
+                    b = false;
+                    break;
+                }
+            }
+            if (b) {
+                number[i] = num;
+                guessedNumber += number[i];
+                ++i;
+            }
+        }
     }
 
     public void checkNumber(String number) {
@@ -70,7 +89,7 @@ public class Game {
         }
 
         if (bulls == difficulty) {
-            isWin = true;
+            player.setWin(true);
             finish();
         } else {
             System.out.println("Быки: " + bulls + "\nКоровы: " + cows);
@@ -97,29 +116,8 @@ public class Game {
             return isValid;
     }
 
-    public void makeANumber() {
-        Random random = new Random();
-        int[] number = new int[difficulty];
-        int num;
-        for (int i = 0; i < difficulty; ) {
-            num = random.nextInt(10);
-            boolean b = true;
-            for (int j = 0; j < i; ++j) {
-                if (number[j] == num) {
-                    b = false;
-                    break;
-                }
-            }
-            if (b) {
-                number[i] = num;
-                guessedNumber += number[i];
-                ++i;
-            }
-        }
-    }
-
     public void finish() {
-        if (isWin) {
+        if (player.isWin()) {
             System.out.println("Победа!");
         } else {
             System.out.println("Поражение!");
