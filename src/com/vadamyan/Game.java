@@ -5,13 +5,13 @@ import java.util.Scanner;
 
 public class Game {
     private int difficulty;
-    private String guessedNumber;
+    private StringBuilder guessedNumber;
     private Player player;
     private int bulls;
     private int cows;
 
     public Game() {
-        guessedNumber = new String();
+        guessedNumber = new StringBuilder();
         player = new Player();
     }
 
@@ -69,7 +69,7 @@ public class Game {
             }
             if (b) {
                 number[i] = num;
-                guessedNumber += number[i];
+                guessedNumber.append(number[i]);
                 ++i;
             }
         }
